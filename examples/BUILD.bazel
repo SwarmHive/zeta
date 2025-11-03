@@ -1,0 +1,31 @@
+cc_binary(
+    name = "bus_example",
+    srcs = ["bus_example.c"],
+    deps = ["//src/bus/c:bus"],
+)
+
+cc_binary(
+    name = "publisher_example",
+    srcs = ["publisher_example.c"],
+    deps = ["//src/bus/c:bus"],
+)
+
+cc_binary(
+    name = "subscriber_example",
+    srcs = ["subscriber_example.c"],
+    deps = ["//src/bus/c:bus"],
+)
+
+py_binary(
+    name = "publisher_example_py",
+    srcs = ["publisher_example.py"],
+    main = "publisher_example.py",
+    deps = ["//src/bus/python:zetabus"],
+)
+
+py_binary(
+    name = "subscriber_example_py",
+    srcs = ["subscriber_example.py"],
+    main = "subscriber_example.py",
+    deps = ["//src/bus/python:zetabus"],
+)

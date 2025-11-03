@@ -1,0 +1,75 @@
+# Bazel
+bazel-*
+.bazel
+.bazelrc.user
+external/
+external
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+*.pyc
+.venv/
+venv/
+ENV/
+env/
+
+# C/C++
+*.o
+*.a
+*.so
+*.dylib
+*.out
+*.exe
+*.dll
+*.obj
+*.exp
+*.lib
+*.pdb
+
+# IDE
+.vscode/*
+!.vscode/tasks.json
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.code-workspace
+
+# Compile commands
+compile_commands.json
+
+# Temporary files
+*.tmp
+*.log
+*.bak
+*.orig
+
+# Build artifacts
+*.d
+.cache/
+
+# OS
+Thumbs.db
+.DS_Store

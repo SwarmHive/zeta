@@ -1,0 +1,44 @@
+"""
+Zeta
+
+*finally* a human friendly robotics framework
+"""
+module(
+    name = "zeta",
+    version = "0.1.0",
+)
+
+bazel_dep(name = "bazel_skylib", version = "1.8.2")
+bazel_dep(name = "rules_foreign_cc", version = "0.15.1")
+bazel_dep(name = "rules_python", version = "0.39.0")
+
+bazel_dep(name = "hedron_compile_commands", dev_dependency = True)
+git_override(
+    module_name = "hedron_compile_commands",
+    remote = "https://github.com/hedronvision/bazel-compile-commands-extractor.git",
+    commit = "latest",
+    # Replace the commit hash (above) with the latest (https://github.com/hedronvision/bazel-compile-commands-extractor/commits/main).
+    # Even better, set up Renovate and let it do the work for you (see "Suggestion: Updates" in the README).
+)
+
+# NATS C client library
+git_repository = use_repo_rule("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
+
+git_repository(
+    name = "nats_c",
+    remote = "https://github.com/nats-io/nats.c.git",
+    tag = "v3.9.1",  # Update to the latest stable version
+    build_file = "//third_party/nats:nats_c.BUILD",
+)
+
+# Python setup
+python = use_extension("@rules_python//python/extensions:python.bzl", "python")
+python.toolchain(python_version = "3.11")
+
+pip = use_extension("@rules_python//python/extensions:pip.bzl", "pip")
+pip.parse(
+    hub_name = "pip",
+    python_version = "3.11",
+    requirements_lock = "//src/bus/python:requirements.txt",
+)
+use_repo(pip, "pip")

@@ -1,0 +1,12 @@
+cc_library(
+    name = "bus",
+    srcs = [
+        "bus.c",
+        "publisher.c",
+        "subscriber.c",
+        "bus_internal.h",
+    ],
+    hdrs = ["bus.h"],
+    visibility = ["//visibility:public"],
+    deps = ["//third_party/nats"],
+)

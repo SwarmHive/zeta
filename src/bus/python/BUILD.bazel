@@ -1,0 +1,11 @@
+py_library(
+    name = "zetabus",
+    srcs = [
+        "__init__.py",
+        "zetabus.py",
+    ],
+    visibility = ["//visibility:public"],
+    deps = [
+        "@pip//nats_py",
+    ],
+)

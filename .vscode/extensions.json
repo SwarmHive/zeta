@@ -1,0 +1,7 @@
+{
+    "recommendations": [
+        "hediet.tasks-statusbar",
+        "llvm-vs-code-extensions.vscode-clangd",
+        "bazelbuild.vscode-bazel"
+    ]
+}
