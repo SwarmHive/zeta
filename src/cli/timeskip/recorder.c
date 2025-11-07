@@ -8,8 +8,8 @@
 #include <unistd.h>
 #include <time.h>
 
-#define DEFAULT_BUFFER_SIZE 10000
-#define BATCH_SIZE 100
+#define DEFAULT_BUFFER_SIZE 100000
+#define BATCH_SIZE 1000
 
 // Get monotonic time in nanoseconds
 static uint64_t get_monotonic_ns(void) {

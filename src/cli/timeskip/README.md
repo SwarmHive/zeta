@@ -173,7 +173,7 @@ The `.zet` format is a binary format optimized for robotics:
 
 ### Buffer Size
 
-Default: 10,000 messages in circular buffer
+Default: 100,000 messages in circular buffer
 
 - Adjust in code if needed for extremely high-frequency topics
 - Monitor "Dropped" statistic during recording
