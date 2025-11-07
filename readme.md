@@ -7,6 +7,10 @@ Zeta is a robotics framework that unifies the robot development cycle. It aims t
 ## Warning ⚠️
 Zeta is still work in progress, and as such, shouldn't be used for production pipelines yet.
 
+Zeta is designed to serve my projects' current needs. 
+
+If you find the code in it useful, go ahead! but I am not able to guarantee it will work for everyone.
+
 ## Preamble
 
 Traditional robot ecosystems like ROS are loosely coupled and may not work on all edge devices. 
