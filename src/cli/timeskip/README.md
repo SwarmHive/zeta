@@ -231,19 +231,6 @@ bazel run //src/cli/timeskip -- play test.zet
 - [ ] Publisher timestamp support (requires Zetabus protocol update)
 - [ ] Multi-file playback (concatenate recordings)
 
-## Comparison to rosbag
-
-| Feature | timeskip | rosbag2 |
-|---------|----------|---------|
-| Setup | Zero config | Requires ROS2 environment |
-| File format | Binary (.zet) | SQLite / MCAP |
-| Performance | Lock-free circular buffer | SQLite transactions |
-| Playback speed | ✅ 0.5x to 10x + MAX | ✅ Supported |
-| Interactive seeking | ✅ Arrow keys | ❌ Not supported |
-| Pause/Resume | ✅ Space bar | ❌ Not supported |
-| Message filtering | Coming soon | ✅ Supported |
-| Ease of use | ✅ Simple CLI | Complex plugin system |
-
 ## Architecture Notes
 
 ### Why Two Threads?
