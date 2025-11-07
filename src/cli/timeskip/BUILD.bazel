@@ -1,0 +1,40 @@
+cc_library(
+    name = "zet_format",
+    srcs = ["zet_format.c"],
+    hdrs = ["zet_format.h"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "recorder",
+    srcs = ["recorder.c"],
+    hdrs = ["recorder.h"],
+    deps = [
+        ":zet_format",
+        "//src/bus/c:bus",
+    ],
+    linkopts = ["-lpthread"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "player",
+    srcs = ["player.c"],
+    hdrs = ["player.h"],
+    deps = [
+        ":zet_format",
+        "//src/bus/c:bus",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+cc_binary(
+    name = "timeskip",
+    srcs = ["main.cpp"],
+    deps = [
+        ":recorder",
+        ":player",
+        "//third_party/cli11",
+    ],
+    visibility = ["//visibility:public"],
+)
