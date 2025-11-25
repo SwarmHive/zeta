@@ -32,6 +32,8 @@ git_repository(
     build_file = "//third_party/nats:nats_c.BUILD",
 )
 
+use_repo(git_repository, "nats_c")
+
 # Python setup
 python = use_extension("@rules_python//python/extensions:python.bzl", "python")
 python.toolchain(python_version = "3.11")
