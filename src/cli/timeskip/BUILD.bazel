@@ -1,16 +1,9 @@
 cc_library(
-    name = "zet_format",
-    srcs = ["zet_format.c"],
-    hdrs = ["zet_format.h"],
-    visibility = ["//visibility:public"],
-)
-
-cc_library(
     name = "recorder",
     srcs = ["recorder.c"],
     hdrs = ["recorder.h"],
     deps = [
-        ":zet_format",
+        "//src/formats/zet/c:zet_format",
         "//src/bus/c:bus",
     ],
     linkopts = ["-lpthread"],
@@ -22,7 +15,7 @@ cc_library(
     srcs = ["player.c"],
     hdrs = ["player.h"],
     deps = [
-        ":zet_format",
+        "//src/formats/zet/c:zet_format",
         "//src/bus/c:bus",
     ],
     visibility = ["//visibility:public"],

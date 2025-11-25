@@ -1,0 +1,21 @@
+load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test", "cc_binary")
+
+cc_library(
+    name = "zet_format",
+    srcs = ["zet_format.c"],
+    hdrs = ["zet_format.h"],
+    visibility = ["//visibility:public"],
+)
+
+cc_binary(
+    name = "libzet_format.so",
+    srcs = ["zet_format.c", "zet_format.h"],
+    linkshared = True,
+    visibility = ["//visibility:public"],
+)
+
+cc_test(
+    name = "zet_format_test",
+    srcs = ["zet_format_test.c"],
+    deps = [":zet_format"],
+)

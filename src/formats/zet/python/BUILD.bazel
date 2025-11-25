@@ -1,0 +1,17 @@
+load("@rules_python//python:defs.bzl", "py_library", "py_test")
+
+py_library(
+    name = "zet_format",
+    srcs = [
+        "__init__.py",
+        "zet_format.py",
+    ],
+    data = ["//src/formats/zet/c:libzet_format.so"],
+    visibility = ["//visibility:public"],
+)
+
+py_test(
+    name = "zet_format_test",
+    srcs = ["zet_format_test.py"],
+    deps = [":zet_format"],
+)
