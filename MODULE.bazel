@@ -9,6 +9,7 @@ module(
 )
 
 bazel_dep(name = "bazel_skylib", version = "1.8.2")
+bazel_dep(name = "rules_cc", version = "0.2.14")
 bazel_dep(name = "rules_foreign_cc", version = "0.15.1")
 bazel_dep(name = "rules_python", version = "0.39.0")
 
@@ -21,15 +22,9 @@ git_override(
     # Even better, set up Renovate and let it do the work for you (see "Suggestion: Updates" in the README).
 )
 
-# NATS C client library
-git_repository = use_repo_rule("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
-
-git_repository(
-    name = "nats_c",
-    remote = "https://github.com/nats-io/nats.c.git",
-    tag = "v3.9.1",  # Update to the latest stable version
-    build_file = "//third_party/nats:nats_c.BUILD",
-)
+# NATS C client library - sourced from module extension
+deps = use_extension("//:extensions.bzl", "zeta_deps")
+use_repo(deps, "nats_c")
 
 # Python setup
 python = use_extension("@rules_python//python/extensions:python.bzl", "python")
