@@ -6,7 +6,7 @@ py_library(
         "__init__.py",
         "zet_format.py",
     ],
-    data = ["//src/formats/zet/c:libzet_format.so"],
+    data = ["//src/formats/zet/c:libzet.so"],
     visibility = ["//visibility:public"],
 )
 

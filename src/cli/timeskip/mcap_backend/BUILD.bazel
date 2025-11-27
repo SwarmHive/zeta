@@ -1,0 +1,48 @@
+# MCAP backend (to be implemented)
+
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+cc_library(
+    name = "recorder_mcap",
+    srcs = ["recorder_mcap.cpp"],
+    hdrs = ["recorder_mcap.h"],
+    deps = [
+        "//third_party/mcap",
+        "//src/bus/c:bus",
+    ],
+    linkopts = ["-lpthread"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "player_mcap",
+    srcs = ["player_mcap.cpp"],
+    hdrs = ["player_mcap.h"],
+    deps = [
+        "//third_party/mcap",
+        "//src/bus/c:bus",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "recorder_adapter",
+    srcs = ["recorder_adapter.cpp"],
+    hdrs = ["recorder_adapter.h"],
+    deps = [
+        ":recorder_mcap",
+        "//src/cli/timeskip:backend_interface",
+    ],
+    visibility = ["//src/cli/timeskip:__pkg__"],
+)
+
+cc_library(
+    name = "player_adapter",
+    srcs = ["player_adapter.cpp"],
+    hdrs = ["player_adapter.h"],
+    deps = [
+        ":player_mcap",
+        "//src/cli/timeskip:backend_interface",
+    ],
+    visibility = ["//src/cli/timeskip:__pkg__"],
+)

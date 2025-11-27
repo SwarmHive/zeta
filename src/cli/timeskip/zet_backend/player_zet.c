@@ -1,6 +1,6 @@
-#include "player.h"
-#include "zet_format.h"
-#include "../../bus/c/bus.h"
+#include "player_zet.h"
+#include "src/formats/zet/c/zet_format.h"
+#include "src/bus/c/bus.h"
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
@@ -29,7 +29,7 @@ typedef struct {
 } playback_message_t;
 
 // Player context
-struct timeskip_player_s {
+struct timeskip_player_zet_s {
     zetabus_t* bus;
     zetabus_publisher_t** publishers; // One publisher per topic
     char** topics;
@@ -58,7 +58,7 @@ static int get_terminal_width(void) {
 }
 
 // Display progress bar
-static void display_progress_bar(timeskip_player_t* player, 
+static void display_progress_bar(timeskip_player_zet_t* player, 
                                   uint64_t recording_start,
                                   playback_message_t* msg,
                                   bool paused) {
@@ -178,7 +178,7 @@ static int read_key(void) {
 }
 
 // Find or create publisher for topic
-static zetabus_publisher_t* get_publisher_for_topic(timeskip_player_t* player, const char* topic) {
+static zetabus_publisher_t* get_publisher_for_topic(timeskip_player_zet_t* player, const char* topic) {
     // Check if we already have a publisher for this topic
     for (size_t i = 0; i < player->topic_count; i++) {
         if (strcmp(player->topics[i], topic) == 0) {
@@ -202,7 +202,7 @@ static zetabus_publisher_t* get_publisher_for_topic(timeskip_player_t* player, c
 }
 
 // Load all messages from file
-static int load_messages(timeskip_player_t* player) {
+static int load_messages(timeskip_player_zet_t* player) {
     zet_reader_t* reader = zet_reader_create(player->input_file);
     if (!reader) return -1;
     
@@ -256,12 +256,12 @@ static int load_messages(timeskip_player_t* player) {
 }
 
 // Public API implementation
-timeskip_player_t* timeskip_player_create(const char* nats_url,
+timeskip_player_zet_t* timeskip_player_zet_create(const char* nats_url,
                                           const char* input_file,
                                           double speed) {
     if (!nats_url || !input_file) return NULL;
     
-    timeskip_player_t* player = calloc(1, sizeof(timeskip_player_t));
+    timeskip_player_zet_t* player = calloc(1, sizeof(timeskip_player_zet_t));
     if (!player) return NULL;
     
     player->input_file = strdup(input_file);
@@ -288,7 +288,7 @@ timeskip_player_t* timeskip_player_create(const char* nats_url,
     return player;
 }
 
-int timeskip_player_start(timeskip_player_t* player) {
+int timeskip_player_zet_start(timeskip_player_zet_t* player) {
     if (!player || player->message_count == 0) return -1;
     
     uint64_t playback_start = get_monotonic_ns();
@@ -327,7 +327,7 @@ int timeskip_player_start(timeskip_player_t* player) {
     return 0;
 }
 
-int timeskip_player_start_interactive(timeskip_player_t* player) {
+int timeskip_player_zet_start_interactive(timeskip_player_zet_t* player) {
     if (!player || player->message_count == 0) return -1;
     
     enable_raw_mode();
@@ -564,7 +564,7 @@ int timeskip_player_start_interactive(timeskip_player_t* player) {
     return 0;
 }
 
-void timeskip_player_destroy(timeskip_player_t* player) {
+void timeskip_player_zet_destroy(timeskip_player_zet_t* player) {
     if (!player) return;
     
     // Destroy publishers
@@ -591,7 +591,7 @@ void timeskip_player_destroy(timeskip_player_t* player) {
     free(player);
 }
 
-void timeskip_player_get_stats(timeskip_player_t* player, timeskip_player_stats_t* stats) {
+void timeskip_player_zet_get_stats(timeskip_player_zet_t* player, timeskip_player_zet_stats_t* stats) {
     if (!player || !stats) return;
     
     stats->total_messages = player->message_count;

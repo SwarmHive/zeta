@@ -1,22 +1,31 @@
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library")
+
 cc_library(
-    name = "recorder",
-    srcs = ["recorder.c"],
-    hdrs = ["recorder.h"],
-    deps = [
-        "//src/formats/zet/c:zet_format",
-        "//src/bus/c:bus",
-    ],
-    linkopts = ["-lpthread"],
+    name = "backend_interface",
+    hdrs = ["backend_interface.h"],
     visibility = ["//visibility:public"],
 )
 
 cc_library(
-    name = "player",
-    srcs = ["player.c"],
-    hdrs = ["player.h"],
+    name = "recorder_controller",
+    srcs = ["recorder_controller.cpp"],
+    hdrs = ["recorder_controller.h"],
     deps = [
-        "//src/formats/zet/c:zet_format",
-        "//src/bus/c:bus",
+        ":backend_interface",
+        "//src/cli/timeskip/ui:terminal",
+        "//src/cli/timeskip/ui:formatting",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "player_controller",
+    srcs = ["player_controller.cpp"],
+    hdrs = ["player_controller.h"],
+    deps = [
+        ":backend_interface",
+        "//src/cli/timeskip/ui:terminal",
+        "//src/cli/timeskip/ui:formatting",
     ],
     visibility = ["//visibility:public"],
 )
@@ -25,8 +34,13 @@ cc_binary(
     name = "timeskip",
     srcs = ["main.cpp"],
     deps = [
-        ":recorder",
-        ":player",
+        ":backend_interface",
+        ":recorder_controller",
+        ":player_controller",
+        "//src/cli/timeskip/zet_backend:recorder_adapter",
+        "//src/cli/timeskip/zet_backend:player_adapter",
+        "//src/cli/timeskip/mcap_backend:recorder_adapter",
+        "//src/cli/timeskip/mcap_backend:player_adapter",
         "//third_party/cli11",
     ],
     visibility = ["//visibility:public"],
