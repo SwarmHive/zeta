@@ -9,6 +9,7 @@ filegroup(
 cmake(
     name = "nats",
     cache_entries = {
+        "CMAKE_BUILD_TYPE": "Release", # Force Release build
         "NATS_BUILD_STREAMING": "OFF",
         "NATS_BUILD_EXAMPLES": "OFF",
         "NATS_BUILD_NO_SPIN": "OFF",
