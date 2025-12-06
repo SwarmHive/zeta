@@ -16,5 +16,3 @@ If you find the code in it useful, go ahead! but I am not able to guarantee it w
 Traditional robot ecosystems like ROS are loosely coupled and may not work on all edge devices. 
 
 Zeta aims to solve this issue by encouraging composable code with hermetic builds, meaning your code can run on a wide range of environments.
-
-Zeta is built on modern tooling like Bazel for hermetic builds and NATS for lightweight messaging, providing a batteries-included dev experience without additional complexity.
