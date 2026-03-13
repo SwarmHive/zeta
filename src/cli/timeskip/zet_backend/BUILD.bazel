@@ -1,0 +1,47 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+cc_library(
+    name = "recorder_zet",
+    srcs = ["recorder_zet.c"],
+    hdrs = ["recorder_zet.h"],
+    deps = [
+        "//src/formats/zet/c:zet_format",
+        "//src/bus/c:bus",
+    ],
+    linkopts = ["-lrt"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "player_zet",
+    srcs = ["player_zet.c"],
+    hdrs = ["player_zet.h"],
+    deps = [
+        "//src/formats/zet/c:zet_format",
+        "//src/bus/c:bus",
+    ],
+    visibility = ["//visibility:public"],
+    linkopts = ["-lrt"],
+)
+
+cc_library(
+    name = "recorder_adapter",
+    srcs = ["recorder_adapter.cpp"],
+    hdrs = ["recorder_adapter.h"],
+    deps = [
+        ":recorder_zet",
+        "//src/cli/timeskip:backend_interface",
+    ],
+    visibility = ["//src/cli/timeskip:__pkg__"],
+)
+
+cc_library(
+    name = "player_adapter",
+    srcs = ["player_adapter.cpp"],
+    hdrs = ["player_adapter.h"],
+    deps = [
+        ":player_zet",
+        "//src/cli/timeskip:backend_interface",
+    ],
+    visibility = ["//src/cli/timeskip:__pkg__"],
+)

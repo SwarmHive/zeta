@@ -1,6 +1,6 @@
-#include "recorder.h"
-#include "zet_format.h"
-#include "../../bus/c/bus.h"
+#include "recorder_zet.h"
+#include "src/formats/zet/c/zet_format.h"
+#include "src/bus/c/bus.h"
 #include <stdlib.h>
 #include <string.h>
 #include <pthread.h>
@@ -37,7 +37,7 @@ typedef struct {
 } circular_buffer_t;
 
 // Recorder context
-struct timeskip_recorder_s {
+struct timeskip_recorder_zet_s {
     zetabus_t* bus;
     zetabus_subscriber_t* subscriber;
     zet_writer_t* writer;
@@ -150,11 +150,11 @@ static bool buffer_is_empty(circular_buffer_t* buf) {
 }
 
 // Global recorder for callback (temporary workaround until we update zetabus API)
-static timeskip_recorder_t* g_current_recorder = NULL;
+static timeskip_recorder_zet_t* g_current_recorder = NULL;
 
 // Subscriber callback (runs in NATS thread)
 static void recording_callback(const char* topic, const void* data, size_t size) {
-    timeskip_recorder_t* recorder = g_current_recorder;
+    timeskip_recorder_zet_t* recorder = g_current_recorder;
     if (!recorder) return;
     
     // Always count received messages
@@ -192,7 +192,7 @@ static void recording_callback(const char* topic, const void* data, size_t size)
 
 // Writer thread function
 static void* writer_thread_func(void* arg) {
-    timeskip_recorder_t* recorder = (timeskip_recorder_t*)arg;
+    timeskip_recorder_zet_t* recorder = (timeskip_recorder_zet_t*)arg;
     buffered_message_t batch[BATCH_SIZE];
     
     atomic_store(&recorder->writer_running, true);
@@ -243,13 +243,13 @@ static void* writer_thread_func(void* arg) {
 }
 
 // Public API implementation
-timeskip_recorder_t* timeskip_recorder_create(const char* nats_url,
+timeskip_recorder_zet_t* timeskip_recorder_zet_create(const char* nats_url,
                                                 const char* topic,
                                                 const char* output_file,
                                                 size_t buffer_size) {
     if (!nats_url || !topic || !output_file) return NULL;
     
-    timeskip_recorder_t* recorder = (timeskip_recorder_t*)calloc(1, sizeof(timeskip_recorder_t));
+    timeskip_recorder_zet_t* recorder = (timeskip_recorder_zet_t*)calloc(1, sizeof(timeskip_recorder_zet_t));
     if (!recorder) return NULL;
     
     // Initialize atomics
@@ -299,7 +299,7 @@ timeskip_recorder_t* timeskip_recorder_create(const char* nats_url,
     return recorder;
 }
 
-int timeskip_recorder_start(timeskip_recorder_t* recorder) {
+int timeskip_recorder_zet_start(timeskip_recorder_zet_t* recorder) {
     if (!recorder) return -1;
     
     // Set global recorder (workaround)
@@ -324,7 +324,7 @@ int timeskip_recorder_start(timeskip_recorder_t* recorder) {
     return 0;
 }
 
-void timeskip_recorder_stop(timeskip_recorder_t* recorder) {
+void timeskip_recorder_zet_stop(timeskip_recorder_zet_t* recorder) {
     if (!recorder) return;
     
     // Stop recording
@@ -347,23 +347,23 @@ void timeskip_recorder_stop(timeskip_recorder_t* recorder) {
     }
 }
 
-void timeskip_recorder_pause(timeskip_recorder_t* recorder) {
+void timeskip_recorder_zet_pause(timeskip_recorder_zet_t* recorder) {
     if (recorder) {
         atomic_store(&recorder->paused, true);
     }
 }
 
-void timeskip_recorder_resume(timeskip_recorder_t* recorder) {
+void timeskip_recorder_zet_resume(timeskip_recorder_zet_t* recorder) {
     if (recorder) {
         atomic_store(&recorder->paused, false);
     }
 }
 
-bool timeskip_recorder_is_paused(timeskip_recorder_t* recorder) {
+bool timeskip_recorder_zet_is_paused(timeskip_recorder_zet_t* recorder) {
     return recorder ? atomic_load(&recorder->paused) : false;
 }
 
-void timeskip_recorder_destroy(timeskip_recorder_t* recorder) {
+void timeskip_recorder_zet_destroy(timeskip_recorder_zet_t* recorder) {
     if (!recorder) return;
     
     // Clean up resources
@@ -384,7 +384,7 @@ void timeskip_recorder_destroy(timeskip_recorder_t* recorder) {
     free(recorder);
 }
 
-void timeskip_recorder_get_stats(timeskip_recorder_t* recorder, timeskip_stats_t* stats) {
+void timeskip_recorder_zet_get_stats(timeskip_recorder_zet_t* recorder, timeskip_recorder_zet_stats_t* stats) {
     if (!recorder || !stats) return;
     
     stats->messages_received = atomic_load(&recorder->messages_received);

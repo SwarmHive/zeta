@@ -1,0 +1,15 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+cc_library(
+    name = "terminal",
+    srcs = ["terminal.cpp"],
+    hdrs = ["terminal.h"],
+    visibility = ["//src/cli/timeskip:__subpackages__"],
+)
+
+cc_library(
+    name = "formatting",
+    srcs = ["formatting.cpp"],
+    hdrs = ["formatting.h"],
+    visibility = ["//src/cli/timeskip:__subpackages__"],
+)

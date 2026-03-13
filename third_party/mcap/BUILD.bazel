@@ -1,0 +1,9 @@
+# MCAP C++ library (header-only)
+
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+cc_library(
+    name = "mcap",
+    visibility = ["//visibility:public"],
+    deps = ["@mcap//:mcap"],
+)
